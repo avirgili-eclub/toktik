@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toktik/presentation/widgets/video/video_backgroud.dart';
 import 'package:video_player/video_player.dart';
 
 class FullScreenPlayer extends StatefulWidget {
@@ -40,24 +41,53 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
             return const Center(
                 child: CircularProgressIndicator(strokeWidth: 2));
           }
-          return AspectRatio(
-            aspectRatio: controller.value.aspectRatio,
-            child: Stack(
-              children: [
-                VideoPlayer(controller),
-                Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      color: Colors.black.withOpacity(0.5),
-                      child: Text(widget.caption,
-                          style: const TextStyle(color: Colors.white)),
-                    ))
-              ],
+          return GestureDetector(
+            onTap: () {
+              if (controller.value.isPlaying) {
+                controller.pause();
+                return;
+              }
+              controller.play();
+            },
+            child: AspectRatio(
+              aspectRatio: controller.value.aspectRatio,
+              child: Stack(
+                children: [
+                  //VideoPlayer
+                  VideoPlayer(controller),
+                  //Gradient
+                  VideoBackground(),
+                  Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: _CaptionVideo(caption: widget.caption)),
+                ],
+              ),
             ),
           );
         });
+  }
+}
+
+class _CaptionVideo extends StatelessWidget {
+  final String caption;
+
+  const _CaptionVideo({required this.caption});
+
+  @override
+  Widget build(BuildContext context) {
+    final titleStyle = Theme.of(context).textTheme.titleLarge;
+    final size = MediaQuery.of(context).size;
+    //TODO: verificar si hace falta container o solo retornar el sizedbox
+    return Container(
+      padding: const EdgeInsets.all(10),
+      color: Colors.black.withOpacity(0.5),
+      child: SizedBox(
+        width: size.width * 0.8,
+        // height: size.height,
+        child: Text(caption, style: titleStyle),
+      ),
+    );
   }
 }
