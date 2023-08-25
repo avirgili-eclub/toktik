@@ -1,5 +1,8 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:toktik/domain/entities/video_post.dart';
+
+import '../../../config/helpers/formats.dart';
 
 class VideoButtons extends StatelessWidget {
   final VideoPost video;
@@ -9,10 +12,21 @@ class VideoButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.favorite_border, color: Colors.white),
-        ),
+        _CustomIconButton(
+            value: video.likes,
+            iconData: Icons.favorite_border,
+            iconColor: Colors.white),
+        const SizedBox(height: 10),
+        _CustomIconButton(
+            value: video.views,
+            iconData: Icons.remove_red_eye_outlined,
+            iconColor: Colors.white),
+        const SizedBox(height: 10),
+        SpinPerfect(
+            infinite: true,
+            duration: const Duration(seconds: 5),
+            child: const _CustomIconButton(
+                value: 0, iconData: Icons.play_circle_outline))
       ],
     );
   }
@@ -21,10 +35,11 @@ class VideoButtons extends StatelessWidget {
 class _CustomIconButton extends StatelessWidget {
   final int value;
   final IconData iconData;
-  final Color color;
+  final Color? color;
 
   const _CustomIconButton(
-      {required this.value, required this.iconData, required this.color});
+      {required this.value, required this.iconData, iconColor})
+      : color = iconColor ?? Colors.white;
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +47,13 @@ class _CustomIconButton extends StatelessWidget {
       children: [
         IconButton(
           onPressed: () {},
-          icon: Icon(iconData, color: color),
+          icon: Icon(iconData, color: color, size: 40),
         ),
-        Text(
-          value.toString(),
-          style: const TextStyle(color: Colors.white),
-        )
+        if (value > 0)
+          Text(
+            Formats.readableNumber(value.toDouble()),
+            style: const TextStyle(color: Colors.white),
+          )
       ],
     );
   }
