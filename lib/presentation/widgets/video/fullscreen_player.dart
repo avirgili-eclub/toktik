@@ -56,11 +56,10 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
                   //VideoPlayer
                   VideoPlayer(controller),
                   //Gradient
-                  VideoBackground(),
+                  const VideoBackground(),
                   Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
+                      bottom: 40,
+                      left: 10,
                       child: _CaptionVideo(caption: widget.caption)),
                 ],
               ),
@@ -79,15 +78,15 @@ class _CaptionVideo extends StatelessWidget {
   Widget build(BuildContext context) {
     final titleStyle = Theme.of(context).textTheme.titleLarge;
     final size = MediaQuery.of(context).size;
-    //TODO: verificar si hace falta container o solo retornar el sizedbox
-    return Container(
-      padding: const EdgeInsets.all(10),
-      color: Colors.black.withOpacity(0.5),
-      child: SizedBox(
-        width: size.width * 0.8,
-        // height: size.height,
-        child: Text(caption, style: titleStyle),
-      ),
+    // return Container(
+    //   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    //   color: Colors.black.withOpacity(0.5),
+    // child:
+    return SizedBox(
+      width: size.width * 0.7,
+      // height: size.height,
+      child: Text(caption, maxLines: 2, style: titleStyle),
+      // ),
     );
   }
 }

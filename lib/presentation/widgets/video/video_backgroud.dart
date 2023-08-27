@@ -9,8 +9,8 @@ class VideoBackground extends StatelessWidget {
         child: DecoratedBox(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    colors: [Colors.black87, Colors.transparent],
-                    stops: [0.8, 0.1],
+                    colors: [Colors.transparent, Colors.black45],
+                    stops: [0.9, 0.1],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter))));
   }
